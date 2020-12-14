@@ -9,14 +9,24 @@ export default {
             const errors = {};
             
             try {
+
+                if(username.trim() === '') errors.username = 'Username must not be empty';
+                if(password === '') errors.password = 'Password must not be empty';
+
+                if(Object.keys(errors).length > 0){
+                    throw new UserInputError('User not found', {errors});
+                }
+                
                 const user = await User.findOne({
                     where: { username }
                 });
 
                 if(!user){
                     errors.username = 'User not found';
-                    throw new UserInputError('User not found', {errors})
+                    throw new UserInputError('User not found', {errors});
                 }
+
+                
 
                 const correctPassword = await bcrypt.compare(password, user.password);
 
