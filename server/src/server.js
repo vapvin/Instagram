@@ -8,7 +8,10 @@ import { sequelize } from '../database/models';
 const PORT = process.env.PORT || 4000;
 
  
-const server = new ApolloServer({ schema });
+const server = new ApolloServer({ 
+  schema,
+  context: ctx => ctx,
+ });
 
 const app = express();
 server.applyMiddleware({ app });
