@@ -15,7 +15,7 @@ server.applyMiddleware({ app });
 app.use('*', logger('dev'), helmet);
  
 app.listen({ port: PORT }, () => {
-  console.log(`🚀 Server ready at http://localhost:4000/graphql <= this link `);
+  console.log(`🚀 Server ready at http://localhost:4000/graphql`);
   sequelize.authenticate()
     .then(() => console.log('Connected'))
     .catch(err => console.log(err));
