@@ -1,6 +1,10 @@
 import {User} from '../../../../database/models';
 import { UserInputError, AuthenticationError } from 'apollo-server-express';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({path: path.join(__dirname, '.env')});
 
 export default {
     Query: {
@@ -35,7 +39,15 @@ export default {
                     throw new AuthenticationError('Password is incorrect', { errors });
                 }
 
-                return user;
+                const token = await jwt.sign({ username }, `${process.env.JWT_KEY}`, { expiresIn: 60 * 60})
+
+                user.token = token;
+
+                return {
+                    ...user.toJSON(),
+                    createdAt: user.createdAt.toISOString(),
+                    token,
+                };
                 
             } catch (err) {
                 console.log(err);

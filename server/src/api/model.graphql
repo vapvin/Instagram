@@ -5,4 +5,7 @@ type User {
     firstname: String!
     lastname: String!
     bio: String
+    token: String
+    createdAt: String!
+    updatedAt: String!
 }
