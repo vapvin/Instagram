@@ -42,8 +42,8 @@ export default {
                     password
                 })
 
-                // return user
-                return user;
+                // return success
+                return true;
             } catch (err) {
                 console.log(err);
                 throw new UserInputError('Invalid Input', { errors: err});
