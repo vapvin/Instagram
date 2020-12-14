@@ -46,7 +46,12 @@ export default {
                 return true;
             } catch (err) {
                 console.log(err);
-                throw new UserInputError('Invalid Input', { errors: err});
+                if(err.name === 'SequelizeUniqueConstraintError'){
+                    err.errors.forEach(e => (errors[e.path] = `${e.message} is already taken`));
+                } else if(err.name === 'SequelizeUniqueValidationError'){
+                    err.errors.forEach(e => errors[e.path] = e.message);
+                }
+                throw new UserInputError('Invalid Input', { errors });
             }
         }
     }
