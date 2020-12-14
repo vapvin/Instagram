@@ -1,21 +1,16 @@
 import express from 'express';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
+import logger from 'morgan';
+import helmet from 'helmet';
+import schema from './schema';
  
-const typeDefs = gql`
-  type Query {
-    hyemin: String
-  }
-`;
+const PORT = process.env.PORT || 4000;
+
  
-const resolvers = {
-  Query: {
-    hyemin: () => '혜민님 똑똑해!',
-  },
-};
- 
-const server = new ApolloServer({ typeDefs, resolvers });
- 
+const server = new ApolloServer({ schema });
+
 const app = express();
 server.applyMiddleware({ app });
+app.use('*', logger('dev'), helmet);
  
-app.listen({ port: 4000 }, () => console.log(`🚀 Server ready at http://localhost:4000/graphql <= this link `))
+app.listen({ port: PORT }, () => console.log(`🚀 Server ready at http://localhost:4000/graphql <= this link `))
