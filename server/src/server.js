@@ -4,13 +4,14 @@ import logger from 'morgan';
 import helmet from 'helmet';
 import schema from './schema';
 import { sequelize } from '../database/models';
+import contextMiddleware from './utils/contextMiddleware';
  
 const PORT = process.env.PORT || 4000;
 
  
 const server = new ApolloServer({ 
   schema,
-  context: ctx => ctx,
+  context: contextMiddleware,
  });
 
 const app = express();

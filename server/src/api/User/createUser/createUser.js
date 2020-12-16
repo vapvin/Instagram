@@ -41,7 +41,7 @@ export default {
                     lastname,
                     password
                 })
-
+                console.log(user)
                 // return success
                 return true;
             } catch (err) {
