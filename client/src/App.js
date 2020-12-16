@@ -1,6 +1,8 @@
+import Routers from './components/Routers';
+
 function App() {
   return (
-    <div>dfd</div>
+    <Routers />
   );
 }
 
