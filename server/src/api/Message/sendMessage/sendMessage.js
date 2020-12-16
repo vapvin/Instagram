@@ -3,13 +3,17 @@ import {User, Message} from '../../../../database/models';
 
 export default {
     Mutation: {
-        sendMessage: async (parent, {to, content}, { user }) => {
+        sendMessage: async (_, {to, content}, { user }) => {
             try {
                 if(!user) throw new AuthenticationError('Unauthenticated');
 
                 const recipient = await User.findOne({ where: { username: to }});
 
-                if(!recipient) throw new UserInputError('User Not Found');
+                if(!recipient){
+                    throw new UserInputError('User Not Found')
+                } else if(recipient.username === user.username){
+                    throw new UserInputError("You can't send message yourself");
+                };
 
                 if(content.trim() === '') {
                     throw new UserInputError('Message is empty');
