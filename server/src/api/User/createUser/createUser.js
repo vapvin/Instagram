@@ -12,8 +12,6 @@ export default {
                 // Validate input data
                 if(email.trim() === '') errors.email = 'Email must not be empty';
                 if(username.trim() === '') errors.email = 'Username must not be empty';
-                if(firstname.trim() === '') errors.email = 'First Name must not be empty';
-                if(lastname.trim() === '') errors.email = 'Last Name must not be empty';
                 if(password.trim() === '') errors.email = 'Password must not be empty';
                 if(confirmPassword.trim() === '') errors.email = 'Confirm Password must not be empty';
 
@@ -37,8 +35,6 @@ export default {
                 const user = await User.create({
                     username,
                     email,
-                    firstname,
-                    lastname,
                     password
                 })
                 console.log(user)

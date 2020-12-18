@@ -9,12 +9,12 @@ dotenv.config({path: path.join(__dirname, '.env')});
 export default {
     Query: {
         login: async (_, args) => {
-            const {username, password} = args;
+            const {email, password} = args;
             const errors = {};
             
             try {
 
-                if(username.trim() === '') errors.username = 'Username must not be empty';
+                if(email.trim() === '') errors.email = 'Email must not be empty';
                 if(password === '') errors.password = 'Password must not be empty';
 
                 if(Object.keys(errors).length > 0){
@@ -22,11 +22,11 @@ export default {
                 }
                 
                 const user = await User.findOne({
-                    where: { username }
+                    where: { email }
                 });
 
                 if(!user){
-                    errors.username = 'User not found';
+                    errors.email = 'User not found';
                     throw new UserInputError('User not found', {errors});
                 }
 
@@ -39,7 +39,7 @@ export default {
                     throw new AuthenticationError('Password is incorrect', { errors });
                 }
 
-                const token = await jwt.sign({ username }, `${process.env.JWT_KEY}`, { expiresIn: 60 * 60})
+                const token = await jwt.sign({ email }, `${process.env.JWT_KEY}`, { expiresIn: 60 * 60})
 
                 user.token = token;
 
