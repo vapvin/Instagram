@@ -48,7 +48,7 @@ function Join(){
         <JoinContainer>
             <InputnArea>
                 <h1>
-                    <Link href="#">
+                    <Link to="#">
                         <img src="./img/logo.png" alt=""/>
                     </Link>
                 </h1>
@@ -56,7 +56,7 @@ function Join(){
                 <JoinInput />
             </InputnArea>
             <LoginArea>
-                <p>계정이 있으신가요? <ButtonLogin href="#">로그인</ButtonLogin></p>
+                <p>계정이 있으신가요? <ButtonLogin to="#">로그인</ButtonLogin></p>
             </LoginArea>
         </JoinContainer>
          

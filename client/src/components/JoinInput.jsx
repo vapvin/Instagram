@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -58,6 +58,22 @@ const JoinLink = styled(Link)`
     margin-top:10px;
 `;
 
+const JoinButton = styled.button`
+    outline: none;
+    border: none;
+    background-color:#0095f6;
+    color:#fff;
+    text-align:center;
+    display:block;
+    font-size:14px;
+    font-weight:bold;
+    color:#fff;
+    border-radius: 4px;
+    line-height:33px;
+    margin-top:10px;
+    width: 100%;
+`;
+
 const Input = styled.input`
     border:1px solid #dbdbdb;
     margin-bottom: 5px;
@@ -69,29 +85,51 @@ const Input = styled.input`
 `;
 
 function Join(){
+
+    const [userdata, setUserData] = useState({
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+    });
+
+    const getUserValue = e => {
+        const {name, value} = e.target;
+        setUserData({
+            ...userdata,
+            [name]: value,
+        })
+    }
+    
+    const registerForm = e => {
+        e.preventDefault();
+        console.log(userdata)
+    }
+
+    
     return(
         <>
             <LoginContainer>
-                <LoginLink href="#">
+                <LoginLink to="#">
                     <img src="./img/kakao.png" alt=""/>
                     <p>카카오로그인</p>
                 </LoginLink>
-                <LoginLink href="#">
+                <LoginLink to="#">
                 <img src="./img/kakao.png" alt=""/>
                     <p>구글로그인</p>
                 </LoginLink>
-                <LoginLink href="#">
+                <LoginLink to="#">
                 <img src="./img/kakao.png" alt=""/>
                     <p>깃허브로그인</p>
                 </LoginLink>
             </LoginContainer>
             <OrContainer>또는</OrContainer>
-            <form action="#">
-                <Input type="email" placeholder="이메일 주소" />
-                <Input type="text" placeholder="성명" />
-                <Input type="password" placeholder="비밀번호" />
-                <Input type="password" placeholder="비밀번호 확인" />
-                <JoinLink href="#">가입</JoinLink>
+            <form action="#" onSubmit={registerForm}>
+                <Input name="email" type="email" placeholder="이메일 주소" value={userdata.email} onChange={getUserValue} />
+                <Input name="username" type="text" placeholder="성명" value={userdata.username} onChange={getUserValue} />
+                <Input name="password" type="password" placeholder="비밀번호" value={userdata.password} onChange={getUserValue} />
+                <Input name="confirmPassword" type="password" placeholder="비밀번호 확인" value={userdata.confirmPassword} onChange={getUserValue} />
+                <JoinButton type="submit" >가입</JoinButton>
             </form>
         </>
     );
