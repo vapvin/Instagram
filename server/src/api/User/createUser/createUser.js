@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 export default {
     Mutation: {
         register: async (_, args) => {
-            let {username, firstname, lastname, email, password, confirmPassword} = args;
+            let {username, email, password, confirmPassword} = args;
             const errors = {};
             
             try {
