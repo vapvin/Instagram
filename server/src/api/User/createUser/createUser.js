@@ -5,15 +5,15 @@ import bcrypt from 'bcryptjs';
 export default {
     Mutation: {
         register: async (_, args) => {
-            let {username, firstname, lastname, email, password, confirmPassword} = args;
+            let {username, email, password, confirmPassword} = args;
             const errors = {};
             
             try {
                 // Validate input data
                 if(email.trim() === '') errors.email = 'Email must not be empty';
-                if(username.trim() === '') errors.email = 'Username must not be empty';
-                if(password.trim() === '') errors.email = 'Password must not be empty';
-                if(confirmPassword.trim() === '') errors.email = 'Confirm Password must not be empty';
+                if(username.trim() === '') errors.username = 'Username must not be empty';
+                if(password.trim() === '') errors.password = 'Password must not be empty';
+                if(confirmPassword.trim() === '') errors.confirmPassword = 'Confirm Password must not be empty';
 
                 if(password !== confirmPassword) errors.confirmPassword = 'Password does not match';
 
@@ -47,7 +47,7 @@ export default {
                 } else if(err.name === 'SequelizeUniqueValidationError'){
                     err.errors.forEach(e => errors[e.path] = e.message);
                 }
-                throw new UserInputError('Invalid Input', { errors });
+                throw new UserInputError("email이 중복되었습니다", { errors });
             }
         }
     }
