@@ -31,7 +31,7 @@ const LoginArea = styled.section`
     width: 350px;
     height: 70px;
     margin-top:10px;
-    padding: 23px 0;
+    padding: 26px 0;
     text-align: center;
     border: 1px solid #dbdbdb;
     background-color:#fff;
@@ -56,7 +56,7 @@ function Join(){
                 <JoinInput />
             </InputnArea>
             <LoginArea>
-                <p>계정이 있으신가요? <ButtonLogin to="#">로그인</ButtonLogin></p>
+                <p>계정이 있으신가요? <ButtonLogin to="/login">로그인</ButtonLogin></p>
             </LoginArea>
         </JoinContainer>
          

@@ -71,6 +71,12 @@ const Input = styled.input`
     color: #8e8e8e;
 `;
 
+const TextError = styled.p`
+    font-size: 11px;
+    color: #ff0000;
+    margin-bottom:15px;
+`;
+
 const REGISTER_USER = gql`
     mutation register($email: String! $username: String! $password: String! $confirmPassword: String!){
         register(email: $email username: $username password: $password confirmPassword: $confirmPassword)
@@ -85,6 +91,7 @@ function Join(){
         password: "",
         confirmPassword: "" 
     });
+    const [error, setError] = useState("");
 
     const getInputData = e =>{
         const {name, value} = e.target;
@@ -99,13 +106,42 @@ function Join(){
             console.log(res)
         },
         onError(err){
-            console.log(err)
+            console.log(err.message)
+            setError(err.message)
         }
     })
+
+
+    const checkForm = () =>{
+        if(variables.password !== variables.confirmPassword){
+            setError("password가 일치하지 않습니다 다시 입력해주세요");
+            return false;
+        }else if(variables.password.length < 8 || variables.password.length > 15){
+            setError("비밀번호는 8자 이상 15자 이하로 입력해주세요");
+            return false;
+        }else if(!variables.password.match(/([a-zA-Z0-9].[!,@,#,$,%,^,&,*,?,~])|([!,@,#,$,%,^,&,*,?,~].*[a-zA-Z0-9])/)){
+            setError("특수문자를 하나 이상 입력해주세요");
+            return false;
+        }else{
+            return true;
+        }
+    } 
+    
     const registerSubmit = e =>{
         e.preventDefault();
-        registerUser({variables})
-        
+        const validate = checkForm();
+        if(!validate){
+            console.log(error);
+            return false;
+        }else{
+            registerUser({variables})
+            setVariables({
+                email: "",
+                username: "",
+                password: "",
+                confirmPassword: ""
+            })
+        }
     }
 
     return(
@@ -116,11 +152,11 @@ function Join(){
                     <p>카카오로그인</p>
                 </LoginLink>
                 <LoginLink to="#">
-                <img src="./img/kakao.png" alt=""/>
+                <img src="./img/google.png" alt=""/>
                     <p>구글로그인</p>
                 </LoginLink>
                 <LoginLink to="#">
-                <img src="./img/kakao.png" alt=""/>
+                <img src="./img/github.svg" alt=""/>
                     <p>깃허브로그인</p>
                 </LoginLink>
             </LoginContainer>
@@ -130,7 +166,10 @@ function Join(){
                 <Input name="username" type="text" placeholder="성명" value={variables.username} onChange={getInputData}/>
                 <Input name="password" type="password" placeholder="비밀번호" value={variables.password} onChange={getInputData}/>
                 <Input name="confirmPassword" type="password" placeholder="비밀번호 확인" value={variables.confirmPassword} onChange={getInputData}/>
-                <JoinLink to="#">가입</JoinLink>
+                {
+                    error.length > 0 ? <TextError>{error}</TextError> : null
+                }
+                <JoinLink type="submit">가입</JoinLink>
             </form>
         </>
     );
