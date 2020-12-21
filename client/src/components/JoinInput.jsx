@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import {useMutation, gql} from '@apollo/client';
 
 const LoginContainer = styled.div`
     LoginLink{width:100%;}
@@ -84,6 +85,12 @@ const Input = styled.input`
     color: #8e8e8e;
 `;
 
+const REGISTER_USER = gql`
+    mutation register($email: String! $username: String! $password: String! $confirmPassword: String!){
+        register(email: $email username: $username password: $password confirmPassword: $confirmPassword)
+    }
+`;
+
 function Join(){
 
     const [userdata, setUserData] = useState({
@@ -100,10 +107,19 @@ function Join(){
             [name]: value,
         })
     }
+
+    const [registerUser, {loading}] = useMutation(REGISTER_USER, {
+        update(_, res){
+            console.log(res);
+        },
+        onError(err){
+            console.log(err);
+        }
+    });
     
     const registerForm = e => {
         e.preventDefault();
-        console.log(userdata)
+        registerUser({userdata});
     }
 
     
