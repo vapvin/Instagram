@@ -1,0 +1,6 @@
+type Query {
+    getComments(
+        post: String!
+        author: String!
+    ): [Comment]!
+}

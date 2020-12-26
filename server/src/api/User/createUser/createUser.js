@@ -18,10 +18,10 @@ export default {
                 if(password !== confirmPassword) errors.confirmPassword = 'Password does not match';
 
                 // username, email check exists
-                const userByUsername = await User.findOne({where: {username}});
+                // const userByUsername = await User.findOne({where: {username}});
                 const userByEmail = await User.findOne({where: {email}});
 
-                if(userByUsername) errors.username = 'Username is already exists';
+                // if(userByUsername) errors.username = 'Username is already exists';
                 if(userByEmail) errors.email = 'Email is already exists';
 
                 if(Object.keys(errors).length > 0){
